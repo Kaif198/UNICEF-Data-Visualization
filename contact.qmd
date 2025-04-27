@@ -1,0 +1,37 @@
+---
+title: "Contact"
+format:
+  html:
+    theme: custom.scss
+    css: styles.css
+    navbar:
+      background: primary
+      logo: /unicef-logo.png
+      title: "UNICEF Data Story"
+      left:
+        - text: "Home"
+          href: index.html
+        - text: "About"
+          href: about.html
+        - text: "Contact"
+          href: contact.html
+    include-in-header:
+      - text: |
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap">
+          <link rel="icon" type="image/png" href="/favicon.png">
+---
+
+<div class="hero">
+  <h1>Get in Touch</h1>
+  <p>Have questions or feedback? Reach out to us!</p>
+</div>
+
+## Contact
+
+For inquiries, please email: <a href="kaifahmed.mohammed2@mail.dcu.ie">kaifahmed.mohammed2@mail.dcu.ie</a>
+
+<a href="index.html" class="cta-button">Back to Home</a>
+
+<footer>
+  Created by Kaif Ahmed | Data sourced from <a href="https://www.unicef.org">UNICEF</a>
+</footer>

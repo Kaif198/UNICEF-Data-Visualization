@@ -1,0 +1,9 @@
+$primary: #1CABE2; // UNICEF Blue
+$secondary: #005566; // Darker Blue
+$background: #F5F6F5; // Light Gray
+$body-bg: #FFFFFF; // White
+$body-color: #333333; // Dark Gray for text
+$link-color: #1CABE2;
+$font-family-sans-serif: 'Helvetica Neue', Arial, sans-serif;
+
+@import "quarto";

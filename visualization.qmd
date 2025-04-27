@@ -1,0 +1,220 @@
+---
+title: "UNICEF Data Visualization: DTP Coverage and Health Indicators"
+subtitle: "Exploring Global Health Metrics with Interactive Visualizations"
+author: "Mohammed Kaif Ahmed (ID 38701)"
+date: "2025-04-24"
+format:
+  html:
+    theme: custom.scss
+    code-fold: true
+    code-summary: "Show Code"
+    toc: true
+    toc-title: "Contents"
+    toc-depth: 3
+    navbar:
+      background: primary
+      logo: /unicef-logo.png
+      title: "UNICEF Data Story"
+      left:
+        - text: "Home"
+          href: index.html
+        - text: "About"
+          href: about.html
+        - text: "Contact"
+          href: contact.html
+    css: styles.css
+    include-in-header:
+      - text: |
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap">
+    cover-image: /hero-bg.jpg
+execute:
+  echo: true
+  warning: false
+jupyter: python3
+---
+
+<div class="hero">
+  <h1>UNICEF Data Story</h1>
+  <p>Discover global health trends through interactive visualizations of DTP vaccination coverage, life expectancy, and economic indicators.</p>
+  <a href="#introduction" class="cta-button">Explore Now</a>
+</div>
+
+## Introduction {#introduction}
+
+Welcome to this interactive data story, inspired by UNICEF’s mission to improve child health worldwide. Using UNICEF datasets, we explore DTP vaccination coverage, life expectancy, and GDP per capita to uncover global health disparities. Scroll through to interact with our visualizations and gain insights into these critical metrics.
+
+```{python}
+#| label: setup
+#| include: false
+
+!pip install -q plotly 2>nul
+!pip install -q geopandas 2>nul
+
+import warnings
+warnings.filterwarnings('ignore')
+
+import pandas as pd
+import geopandas as gpd
+import plotly.express as px
+import plotly.graph_objects as go
+import os
+```
+
+## Global Health Indicators: Choropleth Map
+
+<div class="visualization">
+The choropleth map below highlights total health indicator values (in millions) across countries. Hover to explore country-specific data or zoom for a closer look.
+
+```{python}
+#| label: choropleth
+
+pathD = r'./indicator_data/'
+flag = 0
+for i in os.listdir(pathD):
+  if '.csv' in i:
+    data = pd.read_csv(pathD + i)
+    if flag == 0:
+      df = data
+      flag = 1
+    else:
+      df = pd.concat([df, data])
+
+df['obs_value'] = df['obs_value'] / 1_000_000
+result = df.groupby('alpha_3_code', as_index=False)['obs_value'].sum()
+
+url = "https://naciscdn.org/naturalearth/110m/cultural/ne_110m_admin_0_countries.zip"
+world = gpd.read_file(url)
+world_total_data = world.merge(result, left_on='ISO_A3', right_on='alpha_3_code')
+
+fig = px.choropleth(
+    world_total_data,
+    locations="ISO_A3",
+    color="obs_value",
+    hover_name="NAME",
+    color_continuous_scale=["#E6F3FA", "#1CABE2"],
+    title="Global Health Indicator Distribution",
+    animation_frame=None
+)
+fig.update_layout(
+    margin={"r":0,"t":50,"l":0,"b":0},
+    geo=dict(showframe=False, showcoastlines=True, projection_type="equirectangular"),
+    font=dict(family="Roboto", size=14),
+    plot_bgcolor="#FFFFFF",
+    paper_bgcolor="#FFFFFF",
+    coloraxis_colorbar_title="Indicator Value (Millions)",
+    title_x=0.5
+)
+fig.update_traces(marker_line_width=0.5)
+fig.show()
+```
+</div>
+
+## Country-Wise Comparison: Bar Chart
+
+<div class="visualization">
+This interactive bar chart compares health indicator values across countries. Click and drag to zoom, or hover to see exact values.
+
+```{python}
+#| label: bar-chart
+
+bar_fig = px.bar(
+    result,
+    x='alpha_3_code',
+    y='obs_value',
+    title='Health Indicators by Country',
+    color='obs_value',
+    color_continuous_scale=["#E6F3FA", "#1CABE2"],
+    text='obs_value'
+)
+bar_fig.update_traces(texttemplate='%{text:.2f}', textposition='outside')
+bar_fig.update_layout(
+    xaxis_title="Country Code",
+    yaxis_title="Indicator Value (Millions)",
+    font=dict(family="Roboto", size=14),
+    plot_bgcolor="#FFFFFF",
+    paper_bgcolor="#FFFFFF",
+    showlegend=False,
+    title_x=0.5,
+    xaxis_tickangle=45
+)
+bar_fig.show()
+```
+</div>
+
+## GDP vs. Life Expectancy: Scatter Plot
+
+<div class="visualization">
+Explore the relationship between GDP per capita and life expectancy. The trendline indicates a positive correlation. Hover over points for details.
+
+```{python}
+#| label: scatter-plot
+
+df_meta = pd.read_csv(r'./unicef_metadata.csv')
+df_meta.dropna(inplace=True)
+
+scatter_fig = px.scatter(
+    df_meta,
+    x='GDP per capita (constant 2015 US$)',
+    y='Life expectancy at birth, total (years)',
+    trendline='ols',
+    title='GDP per Capita vs. Life Expectancy',
+    color_discrete_sequence=['#1CABE2'],
+    hover_data=['country'],
+    opacity=0.7
+)
+scatter_fig.update_layout(
+    font=dict(family="Roboto", size=14),
+    plot_bgcolor="#FFFFFF",
+    paper_bgcolor="#FFFFFF",
+    title_x=0.5
+)
+scatter_fig.update_traces(marker=dict(size=10, line=dict(width=1, color='#FFFFFF')))
+scatter_fig.show()
+```
+</div>
+
+## Life Expectancy Trends: Time Series
+
+<div class="visualization">
+This time series chart tracks global average life expectancy over time, showing steady improvements. Hover to view specific years.
+
+```{python}
+#| label: time-series
+
+time_series = df_meta.groupby('year')['Life expectancy at birth, total (years)'].mean().reset_index()
+
+ts_fig = px.line(
+    time_series,
+    x='year',
+    y='Life expectancy at birth, total (years)',
+    title='Life Expectancy Over Time',
+    markers=True,
+    color_discrete_sequence=['#005566']
+)
+ts_fig.update_layout(
+    xaxis_title="Year",
+    yaxis_title="Life Expectancy (Years)",
+    font=dict(family="Roboto", size=14),
+    plot_bgcolor="#FFFFFF",
+    paper_bgcolor="#FFFFFF",
+    title_x=0.5
+)
+ts_fig.update_traces(line=dict(width=3), marker=dict(size=8))
+ts_fig.show()
+```
+</div>
+
+## Conclusion
+
+Our visualizations reveal key insights:
+- **Global Disparities**: Health indicator coverage varies significantly, with higher values in certain regions.
+- **Economic Impact**: Higher GDP per capita correlates with longer life expectancy.
+- **Health Progress**: Global life expectancy has risen steadily over time.
+
+These findings highlight the importance of UNICEF’s work in promoting equitable health access.
+
+<a href="https://www.unicef.org" class="cta-button">Learn More at UNICEF</a>
+
+<footer>
+  Created by Kaif Ahmed | Data sourced from <a href="https://www.unicef.org">UNICEF</a> | <a href="mailto:kaifahmed.mohammed2@mail.dcu.ie">Contact Me</a>
+</footer>

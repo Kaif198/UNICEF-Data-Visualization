@@ -1,0 +1,134 @@
+body {
+  margin:  arrivare 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  background: #F8FAFC;
+  color: #2D3748;
+}
+
+.navbar {
+  background: linear-gradient(90deg, #1CABE2, #00C4B4);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1em;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.8em;
+  color: #FFFFFF !important;
+}
+
+.hero {
+  background: linear-gradient(180deg, #1CABE2, #00C4B4);
+  color: #FFFFFF;
+  text-align: center;
+  padding: 4em 2em;
+  margin-bottom: 2em;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.hero h1 {
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero p {
+  font-size: 1.2em;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2em;
+}
+
+h1, h2, h3 {
+  color: #005566;
+  font-weight: 700;
+  margin-bottom: 1em;
+}
+
+h2 {
+  font-size: 2em;
+  border-left: 5px solid #1CABE2;
+  padding-left: 0.5em;
+}
+
+.visualization {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 1.5em;
+  margin: 2em 0;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.visualization:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.cta-button {
+  display: inline-block;
+  background: linear-gradient(90deg, #1CABE2, #00C4B4);
+  color: #FFFFFF;
+  padding: 0.8em 1.5em;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.cta-button:hover {
+  background: linear-gradient(90deg, #00C4B4, #1CABE2);
+}
+
+footer {
+  background: linear-gradient(90deg, #005566, #1CABE2);
+  color: #FFFFFF;
+  text-align: center;
+  padding: 2em;
+  margin-top: 3em;
+  border-radius: 20px 20px 0 0;
+}
+
+footer a {
+  color: #FFFFFF;
+  text-decoration: underline;
+  margin: 0 0.5em;
+}
+
+.toc {
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding: 1em;
+  margin: 1em 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 3em 1em;
+  }
+  .hero h1 {
+    font-size: 1.8em;
+  }
+  .hero p {
+    font-size: 1em;
+  }
+  section {
+    padding: 1em;
+  }
+  .navbar-brand {
+    font-size: 1.4em;
+  }
+  .visualization {
+    padding: 1em;
+  }
+}

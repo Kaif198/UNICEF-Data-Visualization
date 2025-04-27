@@ -1,0 +1,37 @@
+---
+title: "About This Data Story"
+format:
+  html:
+    theme: custom.scss
+    css: styles.css
+    navbar:
+      background: primary
+      logo: /unicef-logo.png
+      title: "UNICEF Data Story"
+      left:
+        - text: "Home"
+          href: index.html
+        - text: "About"
+          href: about.html
+        - text: "Contact"
+          href: contact.html
+    include-in-header:
+      - text: |
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap">
+          <link rel="icon" type="image/png" href="/favicon.png">
+---
+
+<div class="hero">
+  <h1>About the Project</h1>
+  <p>Learn more about the inspiration and methodology behind this UNICEF data story.</p>
+</div>
+
+## About
+
+This project visualizes UNICEF health data to highlight global disparities in DTP vaccination coverage, life expectancy, and economic indicators. Created by Kaif Ahmed, it aims to raise awareness about child health challenges and support UNICEF’s mission.
+
+<a href="https://www.unicef.org" class="cta-button">Visit UNICEF</a>
+
+<footer>
+  Created by Kaif Ahmed | Data sourced from <a href="https://www.unicef.org">UNICEF</a>
+</footer>
